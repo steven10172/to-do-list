@@ -6,11 +6,11 @@ import App from '../App';
 const Root = ({ store }) => (
   <Provider store={store}>
     <App />
-  </Provider>;
+  </Provider>
 );
 
 Root.propTypes = {
   store: PropTypes.object.isRequired
-}
+};
 
 export default Root;
