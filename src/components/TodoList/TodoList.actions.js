@@ -3,6 +3,14 @@ export const DELETE_TODO = 'DELETE_TODO';
 export const COMPLETE_TODO = 'COMPLETE_TODO';
 export const COMPLETE_ALL = 'COMPLETE_ALL';
 export const UPDATE_TEXT = 'UPDATE_TEXT';
+export const RECEIVE_TODOS = 'RECEIVE_TODOS';
+
+export function receiveTodos(todos) {
+  return {
+    type: RECEIVE_TODOS,
+    todos
+  }
+}
 
 export function addTodo() {
   return {
@@ -14,8 +22,8 @@ export function addTodo() {
 export function updateTodoText(id, text) {
   return {
     type: UPDATE_TEXT,
-    text,
-    id
+    id,
+    text
   }
 }
 

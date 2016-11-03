@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
 import createSagaMiddleware, { END } from 'redux-saga'
 import rootReducer from '../reducers'
 
@@ -7,8 +7,10 @@ export default function configureStore(preloadedState) {
   const store = createStore(
     rootReducer,
     preloadedState,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-    applyMiddleware(sagaMiddleware)
+    compose(
+      window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+      applyMiddleware(sagaMiddleware)
+    )
   );
 
   store.runSaga = sagaMiddleware.run;

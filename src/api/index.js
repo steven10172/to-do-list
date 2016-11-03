@@ -75,18 +75,19 @@ class API {
   }
 
   static addTodo(text) {
+    console.log('Adding todo:', text);
     const promise = new Promise((resolve, reject) => {
       const currentData = LocalStorage.get();
 
-      const newData = currentData.todosApp.todos.push({
+      currentData.todosApp.todos.push({
         id: Math.floor(Math.random() * 1000000000),
         completed: false,
         text
       });
 
-      LocalStorage.set(newData);
+      LocalStorage.set(currentData);
 
-      setTimeout(() => resolve(true), getRandomResponseTime());
+      setTimeout(() => resolve(currentData.todosApp.todos), getRandomResponseTime());
     });
 
     return promise;

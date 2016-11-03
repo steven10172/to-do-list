@@ -1,4 +1,4 @@
-import { ADD_TODO, DELETE_TODO, COMPLETE_TODO, COMPLETE_ALL, UPDATE_TEXT } from './TodoList.actions.js';
+import { ADD_TODO, DELETE_TODO, COMPLETE_TODO, COMPLETE_ALL, UPDATE_TEXT, RECEIVE_TODOS } from './TodoList.actions.js';
 
 const initialState = {
   todos: [
@@ -51,12 +51,15 @@ function todos(state = [], action) {
 
 function todosApp(state = initialState, action) {
   switch (action.type) {
-    case ADD_TODO:
     case DELETE_TODO:
     case COMPLETE_TODO:
     case UPDATE_TEXT:
       return Object.assign({}, state, {
         todos: todos(state.todos, action)
+      });
+    case RECEIVE_TODOS:
+      return Object.assign({}, state, {
+        todos: action.todos
       });
     default:
       return state;
