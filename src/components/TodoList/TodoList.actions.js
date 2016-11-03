@@ -3,10 +3,10 @@ export const DELETE_TODO = 'DELETE_TODO';
 export const COMPLETE_TODO = 'COMPLETE_TODO';
 export const COMPLETE_ALL = 'COMPLETE_ALL';
 
-export function addTodo(text) {
+export function addTodo() {
   return {
     type: ADD_TODO,
-    text
+    text: "New entry" + Math.floor(Math.random() * 100)
   };
 };
 

@@ -1,0 +1,24 @@
+.TodoEntry {
+  height: 1em;
+  margin: 5px;
+  padding: 10px;
+  font-size: 1em;
+  background: #f5f5f5;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+.TodoEntry .text {
+  width: calc(100% - 75px);
+  height: 100%;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.TodoEntry input {
+  margin-right: 20px;
+}
+
+.TodoEntry button {
+  float: right;
+}

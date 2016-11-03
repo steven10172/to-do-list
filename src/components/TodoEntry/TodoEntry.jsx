@@ -1,12 +1,23 @@
 import React from 'react';
+import Checkbox from 'material-ui/Checkbox';
+import ListItem from 'material-ui/List/ListItem';
 import './TodoEntry.css';
 
-const TodoList = ({id, text, completed}) => {
+const checkboxStyles = {
+  width: 30,
+  marginRight: 20
+};
 
-  var completedStatus = (completed) ? "true" : "false";
+const TodoList = ({text, completed, deleteSelf, toggleCompleted}) => {
 
   return (
-    <div key={id} className="TodoEntry">{text} - [Completed: {completedStatus}]</div>
+    <div className="TodoEntry">
+      <Checkbox style={checkboxStyles} defaultChecked={completed} onChange={toggleCompleted} />
+      <ListItem primaryText="Notifications" leftCheckbox={<Checkbox />} />
+      <input type="checkbox" />
+      <span className="text">{text}</span>
+      <button onClick={deleteSelf}>X</button>
+    </div>
   );
 };
 

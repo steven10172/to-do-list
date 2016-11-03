@@ -1,23 +1,14 @@
-import React, { PropTypes, Component } from 'react';
+import React from 'react';
 import TodoList from '../../components/TodoList';
+import CreateNewTodoButton from '../../components/CreateNewTodoButton';
 import './Dashboard.css';
 
-export default class Dashboard extends Component {
-  static propTypes = {
-    addTodo: PropTypes.func.isRequired,
-    todoApp: PropTypes.object.isRequired
-  }
+const Dashboard = () => (
+  <div className="Dashboard">
+    <CreateNewTodoButton />
+    <TodoList />
+  </div>
+);
 
-  addNewTodo = text => {
-    this.props.addTodo("New Entry" + Math.floor(Math.random() * 100));
-  }
 
-  render() {
-    return (
-      <div className="Dashboard">
-        <button onClick={this.addNewTodo}>Add New Entry</button>
-        <TodoList todos={this.props.todoApp.todos} />
-      </div>
-    );
-  }
-}
+export default Dashboard;
