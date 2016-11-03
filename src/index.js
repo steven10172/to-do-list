@@ -2,13 +2,18 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Root from './views/Root';
 import configureStore from './store/configureStore';
+import API from './api'
 
 /* Import Styles */
 import './index.css';
 
-const store = configureStore();
+API.deserializeFromServer()
+  .then((preloadedState) => {
+    const store = configureStore(preloadedState);
 
-ReactDOM.render(
-  <Root store={store} />,
-  document.getElementById('root')
-);
+    ReactDOM.render(
+      <Root store={store} />,
+      document.getElementById('root')
+    );
+  });
+

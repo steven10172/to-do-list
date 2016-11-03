@@ -1,6 +1,5 @@
 import { createStore, applyMiddleware } from 'redux'
 import createSagaMiddleware, { END } from 'redux-saga'
-//import api from '../api'
 import rootReducer from '../reducers'
 
 export default function configureStore(preloadedState) {
@@ -9,8 +8,7 @@ export default function configureStore(preloadedState) {
     rootReducer,
     preloadedState,
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-    applyMiddleware(sagaMiddleware),
-    //applyMiddleware(thunk, api)
+    applyMiddleware(sagaMiddleware)
   );
 
   store.runSaga = sagaMiddleware.run;
