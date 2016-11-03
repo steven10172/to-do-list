@@ -13,8 +13,9 @@ const TodoList = ({ todos, actions }) => (
           key={id}
           text={text}
           completed={completed}
-          deleteSelf={() => actions.deleteTodo(id)}
+          onDelete={() => actions.deleteTodo(id)}
           toggleCompleted={() => actions.completeTodo(id)}
+          onChangeText={(text) => actions.updateTodoText(id, text)}
         />
       )
     }

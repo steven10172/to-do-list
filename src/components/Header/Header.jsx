@@ -1,16 +1,12 @@
 import React from 'react';
-import './Header.css';
+import AppBar from 'material-ui/AppBar';
 
 const Header = (props) => (
   <div className="Header">
-    <div className="Header-container">
-      <div className="left">
-        Left
-      </div>
-      <div className="right">
-        Right
-      </div>
-    </div>
+    <AppBar
+      title="Todo List"
+      iconClassNameRight="muidocs-icon-navigation-expand-more"
+    />
   </div>
 );
 

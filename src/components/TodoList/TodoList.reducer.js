@@ -1,11 +1,11 @@
-import { ADD_TODO, DELETE_TODO, COMPLETE_TODO, COMPLETE_ALL } from './TodoList.actions.js';
+import { ADD_TODO, DELETE_TODO, COMPLETE_TODO, COMPLETE_ALL, UPDATE_TEXT } from './TodoList.actions.js';
 
 const initialState = {
   todos: [
     {
       id: 0,
       text: 'New Entry',
-      completed: true
+      completed: false
     }
   ]
 };
@@ -24,6 +24,15 @@ function todos(state = [], action) {
 
     case DELETE_TODO:
       return state.filter(todo => todo.id !== action.id);
+
+    case UPDATE_TEXT:
+      return state.map(todo => {
+        if(todo.id === action.id) {
+          todo.text = action.text;
+        }
+
+        return todo;
+      });
 
     case COMPLETE_TODO:
       return state.map(todo => {
@@ -45,6 +54,7 @@ function todosApp(state = initialState, action) {
     case ADD_TODO:
     case DELETE_TODO:
     case COMPLETE_TODO:
+    case UPDATE_TEXT:
       return Object.assign({}, state, {
         todos: todos(state.todos, action)
       });
