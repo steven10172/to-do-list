@@ -1,4 +1,4 @@
-import { ADD_TODO, DELETE_TODO, COMPLETE_TODO, COMPLETE_ALL, UPDATE_TEXT, RECEIVE_TODOS } from './TodoList.actions.js';
+import { RECEIVE_TODOS } from './TodoList.actions.js';
 
 const initialState = {
   todos: [
@@ -9,45 +9,6 @@ const initialState = {
     }
   ]
 };
-
-function todos(state = [], action) {
-  switch (action.type) {
-    case ADD_TODO:
-      return [
-        ...state,
-        {
-          id: state.length,
-          text: action.text,
-          completed: false
-        }
-      ];
-
-    case DELETE_TODO:
-      return state.filter(todo => todo.id !== action.id);
-
-    case UPDATE_TEXT:
-      return state.map(todo => {
-        if(todo.id === action.id) {
-          todo.text = action.text;
-        }
-
-        return todo;
-      });
-
-    case COMPLETE_TODO:
-      return state.map(todo => {
-        if(todo.id === action.id) {
-          todo.completed = !todo.completed;
-        }
-
-        return todo;
-      });
-
-    case COMPLETE_ALL:
-    default:
-      return state;
-  }
-}
 
 function todosApp(state = initialState, action) {
   switch (action.type) {
