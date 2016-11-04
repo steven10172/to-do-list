@@ -18,6 +18,7 @@ const checkboxStyles = {
 
 class TodoEntry extends Component {
   static propTypes = {
+    id: PropTypes.number.isRequired,
     text: PropTypes.string.isRequired,
     completed: PropTypes.bool.isRequired,
     onDelete: PropTypes.func.isRequired,
@@ -35,6 +36,7 @@ class TodoEntry extends Component {
     this.handleEditClick = this.handleEditClick.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
+    this.handleToggleCompleted = this.handleToggleCompleted.bind(this);
   }
 
   handleEditClick(event) {
@@ -51,8 +53,12 @@ class TodoEntry extends Component {
     this.props.onDelete();
   }
 
+  handleToggleCompleted() {
+    this.props.toggleCompleted();
+  }
+
   render() {
-    const { text, completed, toggleCompleted } = this.props;
+    const { text, completed } = this.props;
     const todoContent = !this.state.editing ? <div onClick={this.handleEditClick}>{text}</div> : <EditTodo text={text} onUpdate={this.handleSave} />;
 
     const todoEntryMenu = <IconMenu
@@ -67,7 +73,7 @@ class TodoEntry extends Component {
       <div className="TodoEntry">
         <ListItem
           primaryText={todoContent}
-          leftCheckbox={<Checkbox style={checkboxStyles} defaultChecked={completed} onChange={toggleCompleted} />}
+          leftCheckbox={<Checkbox style={checkboxStyles} defaultChecked={completed} onClick={this.handleToggleCompleted} />}
           rightIconButton={todoEntryMenu}
         />
       </div>

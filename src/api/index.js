@@ -97,18 +97,21 @@ class API {
   static updateTodo(id, text) {
     const promise = new Promise((resolve, reject) => {
       const currentData = LocalStorage.get();
+      const currentTodos = currentData.todosApp.todos;
 
-      const newData = currentData.todosApp.todos.map(todo => {
+      // Delete the item from the list
+      const newTodos = currentTodos.map(todo => {
         if(todo.id === id) {
           todo.text = text;
         }
 
         return todo;
       });
+      const newData = Object.assign({}, currentData, {todosApp: Object.assign({}, currentData.todosApp, {todos: newTodos})});
 
       LocalStorage.set(newData);
 
-      setTimeout(() => resolve(true), getRandomResponseTime());
+      setTimeout(() => resolve(newData.todosApp.todos), getRandomResponseTime());
     });
 
     return promise;
@@ -117,18 +120,22 @@ class API {
   static updateTodoCompletion(id, completionStatus) {
     const promise = new Promise((resolve, reject) => {
       const currentData = LocalStorage.get();
+      const currentTodos = currentData.todosApp.todos;
 
-      const newData = currentData.todosApp.todos.map(todo => {
+      // Delete the item from the list
+      const newTodos = currentTodos.map(todo => {
         if(todo.id === id) {
           todo.completed = completionStatus;
         }
 
         return todo;
       });
+      
+      const newData = Object.assign({}, currentData, {todosApp: Object.assign({}, currentData.todosApp, {todos: newTodos})});
 
       LocalStorage.set(newData);
 
-      setTimeout(() => resolve(true), getRandomResponseTime());
+      setTimeout(() => resolve(newData.todosApp.todos), getRandomResponseTime());
     });
 
     return promise;

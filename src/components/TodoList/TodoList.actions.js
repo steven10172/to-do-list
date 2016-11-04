@@ -34,10 +34,11 @@ export function deleteTodo(id) {
   };
 };
 
-export function completeTodo(id) {
+export function completeTodo(id, status) {
   return {
     type: COMPLETE_TODO,
-    id
+    id,
+    status
   };
 };
 

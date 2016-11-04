@@ -11,10 +11,11 @@ const TodoList = ({ todos, actions }) => (
       .map(({ id, text, completed }) =>
         <TodoEntry
           key={id}
+          id={id}
           text={text}
           completed={completed}
           onDelete={() => actions.deleteTodo(id)}
-          toggleCompleted={() => actions.completeTodo(id)}
+          toggleCompleted={() => actions.completeTodo(id, !completed)}
           onChangeText={(text) => actions.updateTodoText(id, text)}
         />
       )

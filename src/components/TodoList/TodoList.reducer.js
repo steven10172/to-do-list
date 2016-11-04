@@ -51,11 +51,6 @@ function todos(state = [], action) {
 
 function todosApp(state = initialState, action) {
   switch (action.type) {
-    case COMPLETE_TODO:
-    case UPDATE_TEXT:
-      return Object.assign({}, state, {
-        todos: todos(state.todos, action)
-      });
     case RECEIVE_TODOS:
       return Object.assign({}, state, {
         todos: action.todos

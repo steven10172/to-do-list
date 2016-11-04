@@ -14,6 +14,16 @@ function* deleteTodo(id) {
   yield put(window.store.dispatch(actions.receiveTodos(todos)));
 }
 
+function* updateTodoText(id, text) {
+  const todos = yield call(API.updateTodo, id, text);
+  yield put(window.store.dispatch(actions.receiveTodos(todos)));
+}
+
+function* updateTodoCompletion(id, status) {
+  const todos = yield call(API.updateTodoCompletion, id, status);
+  yield put(window.store.dispatch(actions.receiveTodos(todos)));
+}
+
 /****************
  *** WATCHERS ***
  ***************/
@@ -31,9 +41,25 @@ function* watchDeleteTodo() {
   }
 }
 
+function* watchUpdateTodoText() {
+  while(true) {
+    const data = yield take(({ action }) => action && action.type === UPDATE_TEXT);
+    yield fork(updateTodoText, data.action.id, data.action.text);
+  }
+}
+
+function* watchUpdateTodoCompletion() {
+  while(true) {
+    const data = yield take(({ action }) => action && action.type === COMPLETE_TODO);
+    yield fork(updateTodoCompletion, data.action.id, data.action.status);
+  }
+}
+
 export default function* root() {
   yield [ 
     fork(watchAddTodos),
-    fork(watchDeleteTodo)
+    fork(watchDeleteTodo),
+    fork(watchUpdateTodoText),
+    fork(watchUpdateTodoCompletion)
   ]
 }
