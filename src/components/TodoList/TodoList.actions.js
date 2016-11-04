@@ -4,6 +4,7 @@ export const COMPLETE_TODO = 'COMPLETE_TODO';
 export const COMPLETE_ALL = 'COMPLETE_ALL';
 export const UPDATE_TEXT = 'UPDATE_TEXT';
 export const RECEIVE_TODOS = 'RECEIVE_TODOS';
+export const CHANGE_VIEW_ORDER = 'CHANGE_VIEW_ORDER';
 
 export function receiveTodos(todos) {
   return {
@@ -45,5 +46,13 @@ export function completeTodo(id, status) {
 export function completeAll() {
   return {
     type: COMPLETE_ALL
+  };
+};
+
+export function changeViewOrder(id, moveUp) {
+  return {
+    type: CHANGE_VIEW_ORDER,
+    id,
+    moveUp
   };
 };

@@ -2,7 +2,7 @@ import { takeEvery } from 'redux-saga'
 import { take, put, call, fork, select } from 'redux-saga/effects'
 import API from '../api'
 import * as actions from '../components/TodoList/TodoList.actions.js'
-import { ADD_TODO, RECEIVE_TODOS, DELETE_TODO, COMPLETE_TODO, COMPLETE_ALL, UPDATE_TEXT } from '../components/TodoList/TodoList.actions.js'
+import { ADD_TODO, RECEIVE_TODOS, DELETE_TODO, COMPLETE_TODO, COMPLETE_ALL, UPDATE_TEXT, CHANGE_VIEW_ORDER } from '../components/TodoList/TodoList.actions.js'
 
 function* addTodo() {
   const todos = yield call(API.addTodo, 'Test Add Todo');
@@ -21,6 +21,16 @@ function* updateTodoText(id, text) {
 
 function* updateTodoCompletion(id, status) {
   const todos = yield call(API.updateTodoCompletion, id, status);
+  yield put(window.store.dispatch(actions.receiveTodos(todos)));
+}
+
+function* updateTodoViewOrder(id, moveUp) {
+  const todos = yield call(API.updateTodoViewOrder, id, moveUp);
+  yield put(window.store.dispatch(actions.receiveTodos(todos)));
+}
+
+function* updateTodoCompletionAll() {
+  const todos = yield call(API.updateTodoCompletionAll);
   yield put(window.store.dispatch(actions.receiveTodos(todos)));
 }
 
@@ -55,11 +65,27 @@ function* watchUpdateTodoCompletion() {
   }
 }
 
+function* watchUpdateTodoViewOrder() {
+  while(true) {
+    const data = yield take(({ action }) => action && action.type === CHANGE_VIEW_ORDER);
+    yield fork(updateTodoViewOrder, data.action.id, data.action.moveUp);
+  }
+}
+
+function* watchUpdateTodoMarkAllCompleted() {
+  while(true) {
+    const data = yield take(({ action }) => action && action.type === COMPLETE_ALL);
+    yield fork(updateTodoCompletionAll);
+  }
+}
+
 export default function* root() {
   yield [ 
     fork(watchAddTodos),
     fork(watchDeleteTodo),
     fork(watchUpdateTodoText),
-    fork(watchUpdateTodoCompletion)
+    fork(watchUpdateTodoCompletion),
+    fork(watchUpdateTodoViewOrder),
+    fork(watchUpdateTodoMarkAllCompleted)
   ]
 }

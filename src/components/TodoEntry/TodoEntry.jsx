@@ -23,7 +23,9 @@ class TodoEntry extends Component {
     completed: PropTypes.bool.isRequired,
     onDelete: PropTypes.func.isRequired,
     toggleCompleted: PropTypes.func.isRequired,
-    onChangeText: PropTypes.func.isRequired
+    onChangeText: PropTypes.func.isRequired,
+    movePositionUp: PropTypes.func.isRequired,
+    movePositionDown: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -37,6 +39,8 @@ class TodoEntry extends Component {
     this.handleSave = this.handleSave.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleToggleCompleted = this.handleToggleCompleted.bind(this);
+    this.handleMoveUp = this.handleMoveUp.bind(this);
+    this.handleMoveDown = this.handleMoveDown.bind(this);
   }
 
   handleEditClick(event) {
@@ -57,6 +61,14 @@ class TodoEntry extends Component {
     this.props.toggleCompleted();
   }
 
+  handleMoveUp() {
+    this.props.movePositionUp();
+  }
+
+  handleMoveDown() {
+    this.props.movePositionDown();
+  }
+
   render() {
     const { text, completed } = this.props;
     const todoContent = !this.state.editing ? <div onClick={this.handleEditClick}>{text}</div> : <EditTodo text={text} onUpdate={this.handleSave} />;
@@ -67,6 +79,8 @@ class TodoEntry extends Component {
         targetOrigin={{horizontal: 'left', vertical: 'top'}}
       >
         <MenuItem onClick={this.handleDelete} primaryText="Remove" />
+        <MenuItem onClick={this.handleMoveUp} primaryText="Move Up" />
+        <MenuItem onClick={this.handleMoveDown} primaryText="Move Down" />
       </IconMenu>;
 
     return (

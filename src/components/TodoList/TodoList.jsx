@@ -17,6 +17,8 @@ const TodoList = ({ todos, actions }) => (
           onDelete={() => actions.deleteTodo(id)}
           toggleCompleted={() => actions.completeTodo(id, !completed)}
           onChangeText={(text) => actions.updateTodoText(id, text)}
+          movePositionUp={() => actions.changeViewOrder(id, true)}
+          movePositionDown={() => actions.changeViewOrder(id, false)}
         />
       )
     }

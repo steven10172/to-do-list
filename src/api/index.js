@@ -6,17 +6,20 @@ const FRESH_SERVER_DATA = {
       {
         id: 0,
         text: 'New Entry',
-        completed: false
+        completed: false,
+        viewOrder: 0
       },
       {
         id: 1,
         text: 'Entry 2',
-        completed: false
+        completed: false,
+        viewOrder: 1
       },
       {
         id: 2,
         text: 'Best Entry',
-        completed: false
+        completed: false,
+        viewOrder: 2
       }
     ]
   }
@@ -83,7 +86,8 @@ class API {
       currentData.todosApp.todos.push({
         id: Math.floor(Math.random() * 1000000000),
         completed: false,
-        text
+        text,
+        viewOrder: currentData.todosApp.todos.length
       });
 
       LocalStorage.set(currentData);
@@ -130,6 +134,79 @@ class API {
 
         return todo;
       });
+      
+      const newData = Object.assign({}, currentData, {todosApp: Object.assign({}, currentData.todosApp, {todos: newTodos})});
+
+      LocalStorage.set(newData);
+
+      setTimeout(() => resolve(newData.todosApp.todos), getRandomResponseTime());
+    });
+
+    return promise;
+  }
+
+  static updateTodoCompletionAll() {
+    const promise = new Promise((resolve, reject) => {
+      const currentData = LocalStorage.get();
+      const currentTodos = currentData.todosApp.todos;
+
+      // Delete the item from the list
+      const newTodos = currentTodos.map(todo => {
+        todo.completed = true;
+        
+        return todo;
+      });
+      
+      const newData = Object.assign({}, currentData, {todosApp: Object.assign({}, currentData.todosApp, {todos: newTodos})});
+
+      LocalStorage.set(newData);
+
+      setTimeout(() => resolve(newData.todosApp.todos), getRandomResponseTime());
+    });
+
+    return promise;
+  }
+
+  static updateTodoViewOrder(id, moveUp) {
+    const promise = new Promise((resolve, reject) => {
+      const currentData = LocalStorage.get();
+      const currentTodos = currentData.todosApp.todos;
+      let currentViewOrder;
+      let oldViewOrder;
+
+      // Change the view order of the todo entry
+      let newTodos = currentTodos.map(todo => {
+        if(todo.id === id) {
+          oldViewOrder = todo.viewOrder;
+          if(moveUp) {
+            todo.viewOrder--;
+          } else {
+            todo.viewOrder++;
+          }
+
+          if(todo.viewOrder < 0) {
+            todo.viewOrder = 0;
+          } else if(todo.viewOrder >= currentTodos.length) {
+            todo.viewOrder = currentTodos.length - 1;
+          }
+
+          // Set the current view order to replace the other item with the same view order
+          currentViewOrder = todo.viewOrder;
+        }
+        
+        return todo;
+      });
+
+      // Swap the view order of the items place that was taken
+      newTodos = newTodos.map(todo => {
+        if(todo.id !== id && todo.viewOrder === currentViewOrder) {          
+          todo.viewOrder = oldViewOrder;
+        }
+        
+        return todo;
+      });
+
+      newTodos.sort((a, b) => a.viewOrder - b.viewOrder);
       
       const newData = Object.assign({}, currentData, {todosApp: Object.assign({}, currentData.todosApp, {todos: newTodos})});
 
