@@ -9,24 +9,31 @@ function* addTodo() {
   yield put(window.store.dispatch(actions.receiveTodos(todos)));
 }
 
+function* deleteTodo(id) {
+  const todos = yield call(API.deleteTodo, id);
+  yield put(window.store.dispatch(actions.receiveTodos(todos)));
+}
+
+/****************
+ *** WATCHERS ***
+ ***************/
 function* watchAddTodos() {
   while(true) {
     const data = yield take(({ action }) => action && action.type === ADD_TODO);
-    console.log('Yield: ', data);
     yield fork(addTodo);
   }
 }
 
-/*function* watchUpdateTodoText() {
+function* watchDeleteTodo() {
   while(true) {
-    const data = yield take(({ action }) => action && action.type === ADD_TODO);
-    console.log('Yield: ', data);
-    yield fork(addTodo);
+    const data = yield take(({ action }) => action && action.type === DELETE_TODO);
+    yield fork(deleteTodo, data.action.id);
   }
-}*/
+}
 
 export default function* root() {
   yield [ 
-    fork(watchAddTodos)
+    fork(watchAddTodos),
+    fork(watchDeleteTodo)
   ]
 }

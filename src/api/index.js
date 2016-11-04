@@ -62,20 +62,21 @@ class API {
   static deleteTodo(id) {
     const promise = new Promise((resolve, reject) => {
       const currentData = LocalStorage.get();
+      const currentTodos = currentData.todosApp.todos;
 
       // Delete the item from the list
-      const newData = currentData.todosApp.todos.filter(todo => todo.id !== id);
+      const newTodos = currentTodos.filter(todo => todo.id !== id);
+      const newData = Object.assign({}, currentData, {todosApp: Object.assign({}, currentData.todosApp, {todos: newTodos})});
 
       LocalStorage.set(newData);
 
-      setTimeout(() => resolve(true), getRandomResponseTime());
+      setTimeout(() => resolve(newData.todosApp.todos), getRandomResponseTime());
     });
 
     return promise;
   }
 
   static addTodo(text) {
-    console.log('Adding todo:', text);
     const promise = new Promise((resolve, reject) => {
       const currentData = LocalStorage.get();
 

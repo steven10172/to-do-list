@@ -51,7 +51,6 @@ function todos(state = [], action) {
 
 function todosApp(state = initialState, action) {
   switch (action.type) {
-    case DELETE_TODO:
     case COMPLETE_TODO:
     case UPDATE_TEXT:
       return Object.assign({}, state, {
