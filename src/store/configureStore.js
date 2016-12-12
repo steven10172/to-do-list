@@ -8,8 +8,8 @@ export default function configureStore(preloadedState) {
     rootReducer,
     preloadedState,
     compose(
-      window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-      applyMiddleware(sagaMiddleware)
+      applyMiddleware(sagaMiddleware),
+      window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : (fn) => fn
     )
   );
 
